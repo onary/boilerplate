@@ -1,0 +1,17 @@
+Jinja2==2.7.3
+MarkupSafe==0.23
+WTForms==2.0.1
+argparse==1.2.1
+backports.ssl-match-hostname==3.4.0.2
+certifi==14.05.14
+greenlet==0.4.4
+mongoengine==0.8.7
+motor==0.3.2
+pycket==0.3.0
+pymongo==2.7.1
+redis==2.10.3
+schematics==0.9-5
+tornado==4.0.2
+tornado-utils==1.6
+wsgiref==0.1.2
+wtforms-tornado==0.0.2
