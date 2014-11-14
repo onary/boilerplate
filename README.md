@@ -7,7 +7,3 @@ TODO:
 5. Admin
 6. SASS/LESS
 7. cache
-
-read about:
-1) from tornado import autoreload
-2) raise gen.Return(val)
