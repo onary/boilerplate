@@ -17,7 +17,9 @@ class BaseHandler(RequestHandler, SessionMixin):
             'user': self.current_user,
             'static': self.static_url,
             'handler': self,
-            'reverse_url': self.reverse_url
+            'reverse_url': self.reverse_url,
+
+            'css': self.application.css,
         })
 
         return self._jinja_render(path=self.get_template_path(),

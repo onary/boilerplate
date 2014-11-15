@@ -2,7 +2,7 @@ import datetime
 from schematics.types import StringType, EmailType, URLType, DateTimeType, \
     BooleanType
 from apps.core.models import BaseModel
-from lib.utils import check_pass, make_pass
+from utils.misc import check_pass, make_pass
 
 
 class UserModel(BaseModel):

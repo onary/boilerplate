@@ -6,7 +6,7 @@ from tornado.auth import FacebookGraphMixin
 from tornado_utils.routes import route
 from pymongo.errors import DuplicateKeyError
 
-from lib.utils import is_loggedin
+from utils.misc import is_loggedin
 from apps.core.handlers import BaseHandler
 from .forms import RegistrationForm, LoginForm
 from .models import UserModel

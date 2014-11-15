@@ -4,13 +4,11 @@ import tornado
 import tornado.web
 from tornado.httpserver import HTTPServer
 from tornado.options import define, options
-
-from lib import filters
-from lib.db import connect_mongo, create_superuser
-from settings import APP_SETTINGS, JINJA_ENV, MONGO_DB, APPS, \
-    AUTH_USER_COLLECTION
-# from urls import handlers
 from tornado_utils.routes import route
+
+import settings
+from utils import filters
+from utils.db import connect_mongo, create_superuser
 
 
 define("port", default=8888, type=int)
@@ -20,21 +18,24 @@ define("autoreload", default=False, type=bool)
 class Application(tornado.web.Application):
     def __init__(self, *args, **kwargs):
         # Init jiaja2 environment
-        self.jinja_env = JINJA_ENV
+        self.jinja_env = settings.JINJA_ENV
         # Register filters for jinja2
         self.jinja_env.filters.update(filters.register_filters())
         self.jinja_env.tests.update({})
-        self.jinja_env.globals['settings'] = APP_SETTINGS
+        self.jinja_env.globals['settings'] = settings.APP_SETTINGS
         handlers = route.get_routes()
 
-        tornado.web.Application.__init__(
-            self, handlers, *args, **dict(APP_SETTINGS, **kwargs))
-
         # Register mongo db
-        self.db = connect_mongo(MONGO_DB, **kwargs)
+        self.db = connect_mongo(settings.MONGO_DB, **kwargs)
+
+        # compress css
+        self.css = settings.ASSETS['css'].urls()[0]
+
+        tornado.web.Application.__init__(
+            self, handlers, *args, **dict(settings.APP_SETTINGS, **kwargs))
 
 
-for app_name in APPS:
+for app_name in settings.APPS:
     # import all handlers so their routes are registered
     __import__('apps.%s' % app_name, globals(), locals(), ['handlers'], -1)
 
@@ -51,9 +52,10 @@ def runserver():
 def syncdb():
     from schematics.models import Model
     from pymongo import MongoClient
-    db = MongoClient(host=MONGO_DB['host'],
-                     port=MONGO_DB['port'])[MONGO_DB['db_name']]
-    for app_name in APPS:
+    db = MongoClient(host=settings.MONGO_DB['host'],
+                     port=settings.MONGO_DB['port']
+                     )[settings.MONGO_DB['db_name']]
+    for app_name in settings.APPS:
         _models = __import__('apps.%s' % app_name, globals(), locals(),
                              ['models'], -1)
         try:
@@ -73,7 +75,7 @@ def syncdb():
                         for index in thing.INDEXES:
                             i_name = index.pop('name')
                             db[collection].create_index(i_name, **index)
-                        if AUTH_USER_COLLECTION == collection:
+                        if settings.AUTH_USER_COLLECTION == collection:
                             su = raw_input("Superuser doesn't exist. Do you"
                                            " want to create it? (y/n)\n")
                             if str(su) == "y":
@@ -84,9 +86,10 @@ def syncdb():
 
 def createsuperuser():
     from pymongo import MongoClient
-    db = MongoClient(host=MONGO_DB['host'],
-                     port=MONGO_DB['port'])[MONGO_DB['db_name']]
-    collection = AUTH_USER_COLLECTION
+    db = MongoClient(host=settings.MONGO_DB['host'],
+                     port=settings.MONGO_DB['port']
+                     )[settings.MONGO_DB['db_name']]
+    collection = settings.AUTH_USER_COLLECTION
     create_superuser(db[collection])
 
 

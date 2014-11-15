@@ -3,7 +3,8 @@ import logging.config
 import uuid
 import base64
 from jinja2 import Environment, FileSystemLoader
-
+from webassets import Environment as WAEnvironment
+from assets import bundles
 
 # Make filepaths relative to settings.
 location = lambda x: os.path.join(
@@ -71,6 +72,13 @@ APPS = (
 
 AUTH_USER_MODEL = 'UserModel'
 AUTH_USER_COLLECTION = 'accounts'
+
+ASSETS = WAEnvironment(STATIC_ROOT, '/static')
+ASSETS.config['SASS_BIN'] = '/usr/local/bin/sass'
+
+for k, v in bundles.iteritems():
+    ASSETS.register(k, v)
+
 
 # See PEP 391 and logconfig for formatting help.
 LOGGING = {
