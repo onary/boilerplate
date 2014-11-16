@@ -4,7 +4,7 @@ import uuid
 import base64
 from jinja2 import Environment, FileSystemLoader
 from webassets import Environment as WAEnvironment
-from assets import bundles
+
 
 # Make filepaths relative to settings.
 location = lambda x: os.path.join(
@@ -73,11 +73,19 @@ APPS = (
 AUTH_USER_MODEL = 'UserModel'
 AUTH_USER_COLLECTION = 'accounts'
 
+# --// Web Assets settings \\--
+# Put import here to avoid losing data in recursive import
+import assets
 ASSETS = WAEnvironment(STATIC_ROOT, '/static')
+# Make sure you've install sass
+# $ sudo apt-get install ruby
+# $ sudo gem install sass
 ASSETS.config['SASS_BIN'] = '/usr/local/bin/sass'
-
-for k, v in bundles.iteritems():
+for k, v in assets.bundles.iteritems():
     ASSETS.register(k, v)
+
+if DEBUG:
+    ASSETS.auto_build = True
 
 
 # See PEP 391 and logconfig for formatting help.

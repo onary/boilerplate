@@ -1,12 +1,17 @@
 from webassets import Bundle
-# from webassets.filter import get_filter
-# sass = get_filter('sass', as_output=True)
+import settings
 
+sass = Bundle('sass/*.sass',
+              filters='sass',
+              output='gen/sass.css')
 
-sass = Bundle('sass/*.sass', filters='sass', output='gen/sass.css')
-
-common_css = Bundle('css/main.css', sass,
-                    filters='yui_css',
+common_css = Bundle('css/*.css', sass,
+                    filters='yui_css' if not settings.DEBUG else None,
                     output='gen/base.css')
 
-bundles = {'css': common_css}
+common_js = Bundle('js/*.js',
+                   filters='yui_js' if not settings.DEBUG else None,
+                   output='gen/base.js')
+
+bundles = {'css': common_css,
+           'js': common_js}

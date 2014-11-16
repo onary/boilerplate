@@ -28,8 +28,8 @@ class Application(tornado.web.Application):
         # Register mongo db
         self.db = connect_mongo(settings.MONGO_DB, **kwargs)
 
-        # compress css
-        self.css = settings.ASSETS['css'].urls()[0]
+        # compress css and js
+        self.assets = lambda x: settings.ASSETS[x].urls()[0]
 
         tornado.web.Application.__init__(
             self, handlers, *args, **dict(settings.APP_SETTINGS, **kwargs))
