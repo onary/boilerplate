@@ -40,8 +40,13 @@ nav a {
   text-decoration: none;
 }
 
+/* line 1 */
+.content {
+  margin-top: 50px;
+}
+
 /* line 4 */
-body {
+#body {
   font: 100% Helvetica, sans-serif;
   color: #333;
 }

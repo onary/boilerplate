@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+
+{% import "macros/forms.html" as forms %}
+
+{% block body %}
+<div class="container ng-scope">
+    <div class="col-sm-12 content clearfix">
+        <ul class="breadcrumb">
+            <li><a href="{{ reverse_url('admin_main') }}">Admin</a> <span class="divider"></span></li>
+            <li><a href="{{ reverse_url('admin_list', slug) }}">{{ slug }}</a><span class="divider"></span></li>
+            <li class="active">New {{ model.verbose_name }}</li>
+        </ul>
+
+        <div class="page-header">
+            <h1>New {{ model.verbose_name }}</h1>
+            {% if success %}
+                <p>{{ model.verbose_name }} was successfully created</p>
+            {% endif %}
+        </div>
+
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <hr class="colorgraph">
+                {{ forms.render_form(form, action_url='', action_text='Submit Form', xsrf=xsrf, extra=extra) }}
+            <hr class="colorgraph">
+        </div>
+    </div>
+</div>
+{% endblock %}

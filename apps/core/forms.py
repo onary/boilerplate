@@ -2,6 +2,7 @@
 import logging
 from wtforms_tornado import Form as WTForm
 from schematics.exceptions import ValidationError as ModelValidationError
+from wtforms import StringField, PasswordField, validators
 
 l = logging.getLogger(__name__)
 
@@ -89,3 +90,14 @@ class ModelForm(Form):
             return False
         self._model_object = obj
         return valid
+
+
+class AdminLoginForm(Form):
+    email = StringField('Email Address', [validators.InputRequired(),
+                                          validators.Email()])
+    password = PasswordField('Password', [validators.InputRequired()])
+
+    text_errors = {
+        'not_found': "Email and password mismatch",
+        'wrong_password': "Email and password mismatch",
+    }

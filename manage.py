@@ -9,10 +9,16 @@ from tornado_utils.routes import route
 import settings
 from utils import filters
 from utils.db import connect_mongo, create_superuser
+from utils.admin import get_admin_apps
+from utils.misc import import_models
 
 
 define("port", default=8888, type=int)
 define("autoreload", default=False, type=bool)
+
+for app_name in settings.APPS:
+    # import all handlers so their routes are registered
+    __import__('apps.%s' % app_name, globals(), locals(), ['handlers'], -1)
 
 
 class Application(tornado.web.Application):
@@ -31,13 +37,14 @@ class Application(tornado.web.Application):
         # compress css and js
         self.assets = lambda x: settings.ASSETS[x].urls()[0]
 
+        # registr admin list
+        self.admin_apps = get_admin_apps()
+
+        # registr models
+        self.models = import_models()
+
         tornado.web.Application.__init__(
             self, handlers, *args, **dict(settings.APP_SETTINGS, **kwargs))
-
-
-for app_name in settings.APPS:
-    # import all handlers so their routes are registered
-    __import__('apps.%s' % app_name, globals(), locals(), ['handlers'], -1)
 
 
 def runserver():
@@ -50,38 +57,24 @@ def runserver():
 
 
 def syncdb():
-    from schematics.models import Model
     from pymongo import MongoClient
     db = MongoClient(host=settings.MONGO_DB['host'],
                      port=settings.MONGO_DB['port']
                      )[settings.MONGO_DB['db_name']]
-    for app_name in settings.APPS:
-        _models = __import__('apps.%s' % app_name, globals(), locals(),
-                             ['models'], -1)
-        try:
-            models = _models.models
-        except AttributeError:
-            # this app simply doesn't have a models.py file
-            continue
 
-        for name in [x for x in dir(models) if re.findall('[A-Z]\w+', x)]:
-            thing = getattr(models, name)
-
-            try:
-                if issubclass(thing, Model):
-                    if hasattr(thing, 'NEED_SYNC'):
-                        collection = thing.MONGO_COLLECTION
-                        db.drop_collection(collection)
-                        for index in thing.INDEXES:
-                            i_name = index.pop('name')
-                            db[collection].create_index(i_name, **index)
-                        if settings.AUTH_USER_COLLECTION == collection:
-                            su = raw_input("Superuser doesn't exist. Do you"
-                                           " want to create it? (y/n)\n")
-                            if str(su) == "y":
-                                create_superuser(db[collection])
-            except TypeError:
-                pass
+    models = import_models()
+    for k, model in models.items():
+        if hasattr(model, 'NEED_SYNC'):
+            collection = model.MONGO_COLLECTION
+            # db.drop_collection(collection)
+            for index in model.INDEXES:
+                i_name = index.pop('name')
+                db[collection].create_index(i_name, **index)
+            if settings.AUTH_USER_COLLECTION == collection:
+                su = raw_input("Superuser doesn't exist. Do you"
+                               " want to create it? (y/n)\n")
+                if str(su) == "y":
+                    create_superuser(db[collection])
 
 
 def createsuperuser():

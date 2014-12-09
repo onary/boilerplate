@@ -1,6 +1,9 @@
 import hashlib
 import uuid
 from functools import wraps
+import settings
+from schematics.models import Model
+import re
 
 
 def make_pass(password):
@@ -24,3 +27,27 @@ def is_loggedin(redirect_to='index'):
                 return method(self, *args, **kwds)
         return wrapper
     return decorator
+
+
+def import_models():
+    result = {}
+    for app_name in settings.APPS:
+        _models = __import__('apps.%s' % app_name, globals(), locals(),
+                             ['models'], -1)
+
+        try:
+            models = _models.models
+        except AttributeError:
+            # this app simply doesn't have a models.py file
+            continue
+
+        for name in [x for x in dir(models) if re.findall('[A-Z]\w+', x)]:
+            thing = getattr(models, name)
+
+            try:
+                if issubclass(thing, Model):
+                    result[thing().__class__.__name__] = thing
+            except TypeError:
+                pass
+
+    return result

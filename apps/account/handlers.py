@@ -7,33 +7,21 @@ from tornado_utils.routes import route
 from pymongo.errors import DuplicateKeyError
 
 from utils.misc import is_loggedin
-from apps.core.handlers import BaseHandler
+from apps.core.handlers import BaseHandler, AuthMixin
 from .forms import RegistrationForm, LoginForm
 from .models import UserModel
 
 logger = logging.getLogger(__name__)
 
 
-class AuthMixin(object):
-    def set_current_user(self, user):
-        if user:
-            self.set_secure_cookie('user', tornado.escape.json_encode(user))
-        else:
-            self.clear_cookie('user')
-
-    def set_session(self, user):
-        if user:
-            self.session.set('user', user)
-
-
 @route('/login', name='login')
 class LoginHandler(BaseHandler, AuthMixin):
-    @gen.coroutine
+
     @is_loggedin(redirect_to='index')
     def get(self):
         self.render('account/login.html', form=LoginForm())
 
-    @tornado.gen.coroutine
+    @gen.coroutine
     @is_loggedin(redirect_to='index')
     def post(self):
         form = LoginForm(self.request.arguments)
@@ -42,7 +30,7 @@ class LoginHandler(BaseHandler, AuthMixin):
                 "email": form.email.data})
             if user:
                 if user.check_password(form.password.data):
-                    self.set_session(str(user._id))
+                    self.set_session(str(user.email or user._id))
                     self.redirect(self.reverse_url('index'))
                     return
                 else:
@@ -86,7 +74,7 @@ class FacebookLoginHandler(BaseHandler, FacebookGraphMixin, AuthMixin):
 
                 yield user.insert(self.db)
 
-            self.set_session(str(user._id))
+            self.set_session(str(user.email or user._id))
             self.redirect(self.reverse_url('index'))
         else:
             yield self.authorize_redirect(
@@ -113,7 +101,6 @@ class RegisterHandler(AuthMixin, BaseHandler):
     def post(self):
         form = RegistrationForm(self.request.arguments)
         if form.validate():
-            pass
             user = form.get_object()
             user.set_password(user.password)
             try:
@@ -123,7 +110,7 @@ class RegisterHandler(AuthMixin, BaseHandler):
                 form.set_field_error('email', 'email_occupied')
             else:
                 # user save succeeded
-                self.set_session(str(user._id))
+                self.set_session(str(user.email or user._id))
                 self.redirect(self.reverse_url('index'))
                 return
         self.render('account/signup.html', form=form)

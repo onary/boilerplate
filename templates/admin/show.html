@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+
+{% block body %}
+<div class="container">
+    <div class="col-sm-12 content clearfix" ui-view="admContent">
+        <ul class="breadcrumb ng-scope">
+            <li><a href="{{ reverse_url('admin_main') }}">Admin</a> <span class="divider"></span></li>
+            <li><a href="{{ reverse_url('admin_list', slug) }}">{{ slug }}</a><span class="divider"></span></li>
+            <li class="active">Details of {{ model.verbose_name }}</li>
+        </ul>
+
+        <div class="page-header ng-scope">
+            <h1>Details of {{ model.verbose_name }}</h1>
+        </div>
+
+        <table class="table table-bordered">
+            <tbody>
+                {% for k, v in query.items() %}
+                    <tr><th>{{ k }}</th><td class="ng-binding">{{ v }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="well">
+            <a class="btn btn-mini" href="{{ reverse_url('admin_edit', slug, query._id) }}">
+                <i class="icon-edit"></i> Edit
+            </a>
+            <a href="#" data-url="{{ reverse_url('admin_delete', slug, query._id) }}" class="btn btn-mini btn-danger admin-delete">
+                <i class="icon-remove icon-white"></i> Delete</a>
+            or
+            <a href="{{ reverse_url('admin_list', slug) }}">Back to index</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

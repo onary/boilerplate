@@ -1,0 +1,60 @@
+{% extends "admin/base.html" %}
+
+{% block body %}
+<div class="container ng-scope">
+    <div class="col-sm-12 content clearfix">
+        <ul class="breadcrumb">
+            <li><a href="{{ reverse_url('admin_main') }}">Admin</a> <span class="divider"></span></li>
+            <li class="active">{{ slug }}</li>
+        </ul>
+
+        <div class="page-header">
+            <h1>Index of {{ slug }}</h1>
+        </div>
+
+        <div class="row">
+            <div class="span12">
+                <p>
+                    <a class="btn btn-primary" href="{{ reverse_url('admin_new', slug) }}">
+                        <i class="icon-plus icon-white"></i>New {{ model.verbose_name }}
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span12">
+                {% if query %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in query %}
+                        <tr>
+                            <td>
+                                <strong>
+                                    <a href="{{ reverse_url('admin_show', slug, i._id) }}">{{ i }}</a>
+                                </strong>
+                            </td>
+                            <td>
+                                <a class="btn btn-mini" href="{{ reverse_url('admin_edit', slug, i._id) }}"><i class="icon-edit"></i> Edit</a>
+                                <a href="#" data-url="{{ reverse_url('admin_delete', slug, i._id) }}" class="btn btn-mini btn-danger admin-delete"><i class="icon-remove icon-white"></i> Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="alert alert-block alert-info">
+                    <strong>No {{ model.verbose_name_plural }} were found.</strong>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,8 +12,13 @@ def truncate_words(s, num=50, end_text='...'):
     return s
 
 
+def replace_underline(s):
+    return s.replace("_", " ")
+
+
 def register_filters():
     return dict(
         truncate_words=truncate_words,
         datetimeformat=datetimeformat,
+        replace_underline=replace_underline,
     )

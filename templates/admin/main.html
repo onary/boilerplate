@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+
+{% block body %}
+<div class="col-sm-12 content clearfix">
+    <ul class="breadcrumb">
+        <li class="active">Admin homepage</li>
+    </ul>
+
+    <div class="page-header">
+        <h1>Admin homepage</h1>
+    </div>
+    <ul class="models-list">
+
+        {% for app_name, admin_dict in obj.iteritems() %}
+            <li>
+                <a href="{{ reverse_url('admin_list', app_name) }}">{{ app_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
