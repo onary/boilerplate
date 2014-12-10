@@ -68,6 +68,7 @@ JINJA_ENV = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
 APPS = (
     'core',
     'account',
+    'home',
 )
 
 AUTH_USER_MODEL = 'UserModel'

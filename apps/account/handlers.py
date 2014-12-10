@@ -40,13 +40,6 @@ class LoginHandler(BaseHandler, AuthMixin):
         self.render('account/login.html', form=form)
 
 
-@route('/', name='index')
-class MainHandler(BaseHandler):
-    @gen.coroutine
-    def get(self):
-        self.render('index.html')
-
-
 @route('/facebook_login', name='fb_login')
 class FacebookLoginHandler(BaseHandler, FacebookGraphMixin, AuthMixin):
     @tornado.gen.coroutine

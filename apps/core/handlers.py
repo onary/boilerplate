@@ -111,6 +111,7 @@ class AdminLoginHandler(AuthMixin, BaseHandler):
         self.render('admin/login.html', form=form)
 
 
+# TODO: complete RESTful model
 # @route(r"/admin", name='admin_main')
 # @route(r'/admin/(.+)', name='admin_list')
 # @route(r'/admin/(.+)/(.+)', name='admin_modify')

@@ -1,5 +1,4 @@
 import sys
-import re
 import tornado
 import tornado.web
 from tornado.httpserver import HTTPServer
