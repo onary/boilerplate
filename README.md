@@ -22,15 +22,15 @@ Mix of django, flask and tornado itself styles
 
 ## Additional notes
 
-* SASS *
+#### SASS
 
-#### Docs here: http://webassets.readthedocs.org/en/latest/builtin_filters.html#filters-sass
-#### installation:
+**Docs is here:** http://webassets.readthedocs.org/en/latest/builtin_filters.html#filters-sass
+**installation:**
 
-* $ sudo apt-get install ruby
-* $ sudo gem install sass
+$ sudo apt-get install ruby
 
+$ sudo gem install sass
 
-* For dynamic forms you need to install *
+#### For dynamic forms you need to install
 
-pip install -e git://github.com/onary/schematics-wtf.git#egg=schematics_wtf
+$ pip install -e git://github.com/onary/schematics-wtf.git#egg=schematics_wtf
