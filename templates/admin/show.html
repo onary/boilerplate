@@ -1,22 +1,22 @@
-{% extends "admin/base.html" %}
+{% extends "base.html" %}
 
 {% block body %}
 <div class="container">
     <div class="col-sm-12 content clearfix" ui-view="admContent">
-        <ul class="breadcrumb ng-scope">
+        <ul class="breadcrumb">
             <li><a href="{{ reverse_url('admin_main') }}">Admin</a> <span class="divider"></span></li>
             <li><a href="{{ reverse_url('admin_list', slug) }}">{{ slug }}</a><span class="divider"></span></li>
             <li class="active">Details of {{ model.verbose_name }}</li>
         </ul>
 
-        <div class="page-header ng-scope">
+        <div class="page-header">
             <h1>Details of {{ model.verbose_name }}</h1>
         </div>
 
         <table class="table table-bordered">
             <tbody>
                 {% for k, v in query.items() %}
-                    <tr><th>{{ k }}</th><td class="ng-binding">{{ v }}</td></tr>
+                    <tr><th>{{ k }}</th><td>{{ v }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

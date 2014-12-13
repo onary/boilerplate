@@ -1,52 +1,79 @@
-/* Credit to bootsnipp.com for the css for the color graph */
-.colorgraph {
-    height: 5px;
-    border-top: 0;
-    background: #c4e17f;
-    border-radius: 5px;
-    background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-    background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-    background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-    background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+/* line 1 */
+#grid {
+  font-size: 250%;
+  font-family: sans-serif;
 }
 
-div#container {
-    margin-top: 45px;
-}
-
-ul.error {
-    padding-left: 0px;
-}
-
-ul.error li {
-    color: red;
-    list-style: none;
-}
-
-/* line 2 */
-nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-/* line 7 */
-nav li {
-  display: inline-block;
-}
-/* line 10 */
-nav a {
+/* line 5 */
+.pl {
   display: block;
-  padding: 6px 12px;
-  text-decoration: none;
+  width: 70px;
+  height: 70px;
+  background-color: #BDBDBD;
+}
+
+/* line 11 */
+.pl:hover {
+  background-color: #DFDADA;
+}
+
+/* line 14 */
+td {
+  padding: 5px;
+}
+
+/* line 17 */
+span.red {
+  color: red;
+  font-weight: bold;
+}
+
+/* line 21 */
+span.blue {
+  color: blue;
+  font-weight: bold;
+}
+
+/* line 25 */
+span.green {
+  color: green;
+  font-weight: bold;
 }
 
 /* line 1 */
-.content {
+.colorgraph {
+  height: 5px;
+  border-top: 0;
+  background: #c4e17f;
+  border-radius: 5px;
+  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+
+/* line 12 */
+div#container {
   margin-top: 50px;
 }
 
-/* line 4 */
-#body {
-  font: 100% Helvetica, sans-serif;
-  color: #333;
+/* line 16 */
+ul.error {
+  padding-left: 0px;
+}
+
+/* line 20 */
+ul.error li {
+  color: red;
+  list-style: none;
+}
+
+/* line 25 */
+.content {
+  margin-top: 45px;
+}
+
+/* line 29 */
+.start-game-wrapper {
+  margin: 22% 44%;
 }

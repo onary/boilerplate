@@ -69,6 +69,7 @@ APPS = (
     'core',
     'account',
     'home',
+    'tictactoe',
 )
 
 AUTH_USER_MODEL = 'UserModel'

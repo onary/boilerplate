@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-
+<div class="start-game-wrapper">
+	<a class="btn btn-danger btn-lg" href="{{ reverse_url('start_game') }}">Start TicTacToe</a>
+</div>
 {% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block head_extra %}
+<script>
+	$(document).ready(function() {
+		ws = new WebSocket('ws://' + location.hostname + (!!location.port ? (':' + location.port): '') + '/ws');
+
+		ws.onmessage = function(msg) {
+			var data = JSON.parse(msg.data);
+			console.log(data);
+
+			if (!!data['symbol']) {
+				$('#symbol').text(data['symbol']);
+			} else if (!!data['id']) {
+				$('#'+data['id']).html('<img src="static/img/'+data['img']+'.png" width="70" height="70" alt="">');
+			} else if (!!data['winner']) {
+				$('#messages').prepend('<span class="blue">The Winner is - ' + data['winner'] + '</span><br/>');
+			} else if (!!data['dead_heat']) {
+				$('#messages').prepend('<span class="red">Dead heat!</span><br/>');
+			} else if (!!data['new_game']) {
+				$('td').html('<a href="#" class="pl" onclick="move(event, $(this));"></a>');
+				$('#messages').prepend('<span class="green">The new game is started!</span><br/>');
+			} else if (!!data['error']) {
+				$('#messages').prepend('<span class="red">Error: '+data['error']+'</span> <br/>');
+			} else {
+				$('#messages').prepend(msg.data + '<br/>');
+			}
+		}
+	});
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-sm-offset-5 col-md-offset-5">
+		<h1>Tic Tac Toe - <span id="symbol"></span></h1>
+		<div id="grid">
+			<table border="1">
+				{% for y in range(3) %}
+				<tr>
+					{% for x in range(3) %}
+						<td width="80px" height="80px" id="{{ x }}{{ y }}" data-position="{{ x }},{{ y }}">
+						</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div id="messages">
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+	function move(event, th) {
+		event.preventDefault();
+		console.log(th.parent().data().position);
+		ws.send(th.parent().data().position);
+		return false;
+	}
+</script>
+{% endblock %}
