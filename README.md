@@ -13,11 +13,11 @@ Mix of django, flask and tornado itself styles
 7. Admin panel [Using schematics-wtf for dynamically creating forms]
 8. Urls decorators in a flask-style
 
+9. TicTacToe as websocet example
+
 ## TODO:
 
-1. Try WebSockets (simple chat or game)
-2. Improve admin panel (join all handlers in one restful class)
-3. Improve webassets (reload app if sass files have changed)
+* Improve admin panel (join all handlers in one restful class)
 
 
 ## Additional notes

@@ -1,9 +1,6 @@
 import random
 import string
 import tornado.websocket
-import tornado.httpserver
-import tornado.ioloop
-import tornado.template
 import traceback
 from itertools import cycle
 from apps.core.handlers import BaseHandler
@@ -140,7 +137,7 @@ class PlayerWebSocket(tornado.websocket.WebSocketHandler):
         except Exception, e:
             print e
 
-        print self.player.id
+        print self.player.symbol, self.player.id
 
     def on_close(self):
         try:
