@@ -11,7 +11,8 @@ pycket==0.3.0
 pymongo==2.7.1
 redis==2.10.3
 schematics
--e git://github.com/ryanolson/schematics-wtf.git#egg=schematics_wtf
+-e git://github.com/onary/schematics-wtf.git#egg=schematics_wtf-master
+six==1.8.0
 tornado==4.0.2
 tornado-utils==1.6
 webassets==0.10.1
